@@ -36,7 +36,7 @@ shinyUI(
                                The scenario parameters to be specified contain the number of dose levels of each agent, the true probabilities of DLT for each dose, the target toxicity rate, etc.
                                Changing the number of dose levels will automatically change the size of input bar designed to specify true DLT probabilities. 
                                The hyperparameters include the effective sample size in the beta prior distribution, the magnitude of penalty/reward in the utility function, and minimum probability to conclude, etc. 
-                               After these parameters have been specified, clicking the \textit{\textbf{Get operating characteristics}} button will begin the computations and display the results in a new output tab, 
+                               After these parameters have been specified, clicking the <strong><em>Get operating characteristics</em></strong> button will begin the computations and display the results in a new output tab, 
                                which contains the scenario used in the current setting, tabulated operating characteristics, and informative plots."),
                           
                           
