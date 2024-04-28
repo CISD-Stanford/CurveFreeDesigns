@@ -762,10 +762,10 @@ shinyUI(
                                                                         uiOutput("prior_eff_CFBD"),
                                                                         uiOutput("prior_tox_CFBD"),
                                                                         uiOutput("BEDs_selection_CFBD"),
-                                                                        HTML("Enter the MTD and current dose level into the box below. The current dose level is optional, once entered, it will evaluation about whether to stop the trial based on stopping rule of the stage 2"),
-                                                                        fluidRow(
-                                                                          numericInput("currentDose_CFBD", strong("The current dose level (optional)"),      value = NA,     min = 0,  max = 10),
-                                                                        ),
+                                                                        # HTML("Enter the MTD and current dose level into the box below. The current dose level is optional, once entered, it will evaluation about whether to stop the trial based on stopping rule of the stage 2"),
+                                                                        # fluidRow(
+                                                                        #   numericInput("currentDose_CFBD", strong("The current dose level (optional)"),      value = NA,     min = 0,  max = 10),
+                                                                        # ),
                                                                         
                                                                         checkboxInput("checkbox_CFBD", strong("Check the box to confirm that parameters have been entered under simulation study and values have been entered in the second table"), value = FALSE, width = NULL),
                                                                         actionButton("SelectBEDs_CFBD", "Find BEDs"))),

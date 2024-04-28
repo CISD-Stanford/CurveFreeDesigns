@@ -1550,7 +1550,7 @@ shinyServer(
         a.pTox = 4 * ifelse(sum(is.na(input$prior_tox_CFBD_input)) == 0, input$prior_tox_CFBD_input, 0) + workData_mtd$tox
         b.pTox = 4 * ifelse(sum(is.na(input$prior_tox_CFBD_input)) == 0, (1 - input$prior_tox_CFBD_input), 0) + (workData_mtd$n - workData_mtd$tox)
         MTD_CFBD = findmtd(input$target_CFBD, a.pTox, b.pTox, 1, 1)
-        BEDs = findbeds_CFBD(MTD_CFBD, n.eff, n.assign, a.pEff, b.pEff, input$E.min_CFBD, gain.A = 1, gain.AC = 1, phi = 1, lo = 1)
+        BEDs = findbeds_CFBD(MTD_CFBD$mtd, n.eff, n.assign, a.pEff, b.pEff, input$E.min_CFBD, gain.A = 1, gain.AC = 1, phi = 1, lo = 1)
         beds = BEDs[1]:BEDs[2]
         df_table1_bed = data.frame(Dose_level = 1:input$doseLevel1_CFBD, Posterior_Efficacy_Rate_Estimate = round(c(a.pEff/(a.pEff+b.pEff)),2), Credible_Interval = paste0("( ", round(qbeta(0.025, a.pEff, b.pEff),2), " , ", round(qbeta(0.975, a.pEff, b.pEff),2), " )"), Pr = round(c(1 - pbeta(input$E.min_CFBD, a.pEff, b.pEff)),2))
         output$table1_bed_CFBD <- renderDT({
@@ -1568,20 +1568,20 @@ shinyServer(
             xlab("Dose Levels") +
             ylab("Prob (Efficacy)")
         })
-        if (is.na(input$currentDose_CFBD)) {
-          output$BEDs_result_CFBD = renderUI({
-            fluidRow(
-              withMathJax(),
-              align = 'left',
-              HTML(paste0("<font size=\"3\">The BEDs are from dose level <strong>", BEDs[1], "</strong> to dose level <strong>", BEDs[2], "</strong><font>")),
-              DTOutput('table1_bed_CFBD'),
-              br(),
-              HTML(paste0("<font size=\"3\">Minimum acceptable efficacy rate: <strong>", input$E.min_CFBD, "</strong> &nbsp &nbsp &nbsp &nbsp Selected BED interval: <strong>[", BEDs[1], ",", BEDs[2], "]</strong><font>")),
-              plotOutput('plot1_bed_CFBD')
-            )
-          })
-        }
-        else {
+        # if (is.na(input$currentDose_CFBD)) {
+        #   output$BEDs_result_CFBD = renderUI({
+        #     fluidRow(
+        #       withMathJax(),
+        #       align = 'left',
+        #       HTML(paste0("<font size=\"3\">The BEDs are from dose level <strong>", BEDs[1], "</strong> to dose level <strong>", BEDs[2], "</strong><font>")),
+        #       DTOutput('table1_bed_CFBD'),
+        #       br(),
+        #       HTML(paste0("<font size=\"3\">Minimum acceptable efficacy rate: <strong>", input$E.min_CFBD, "</strong> &nbsp &nbsp &nbsp &nbsp Selected BED interval: <strong>[", BEDs[1], ",", BEDs[2], "]</strong><font>")),
+        #       plotOutput('plot1_bed_CFBD')
+        #     )
+        #   })
+        # }
+        # else {
           output$BEDs_result_CFBD = renderUI({
             fluidRow(
               withMathJax(),
@@ -1590,8 +1590,8 @@ shinyServer(
               HTML(paste0("&nbsp &nbsp S1. Is the minimum sample size (\\(n_{min}\\)) achieved: <strong>", sum(n.assign) >= input$n.min_CFBD, "</strong> <br>")),
               HTML(paste0("&nbsp &nbsp S2. Does sample size reach the maximum sample size (\\(n_{max}\\)) : <strong>", sum(n.assign) >= input$n.max_CFBD, "</strong> <br>")),
               HTML(paste0("&nbsp &nbsp S3. whether the current interval of BEDs is very likely to be acceptable: <strong>", BEDs[3] > 0.9, "</strong> <br>")),
-              HTML(paste0("&nbsp &nbsp S4. can we conclude the current dose is verty to be the MTD: <strong>", all(sapply(1:input$MTD_CFBD, function(i) {Rbeta(input$E.min_CFBD,a.pEff[i],b.pEff[i])}) > 0.9), "</strong> <br>")),
-              HTML(paste0("Whether we should stop the trial based on the input data: <strong>", (sum(n.assign) >= input$n.min_CFBD) & ((sum(n.assign) >= input$n.max_CFBD) | BEDs[3] > 0.9 | all(sapply(1:input$MTD_CFBD, function(i) {Rbeta(input$E.min_CFBD,a.pEff[i],b.pEff[i])}) > 0.9)), "</strong> <br>")),
+              HTML(paste0("&nbsp &nbsp S4. can we conclude the current dose is very likely to be the MTD: <strong>", all(sapply(1:MTD_CFBD$mtd, function(i) {Rbeta(input$E.min_CFBD,a.pEff[i],b.pEff[i])}) > 0.9), "</strong> <br>")),
+              HTML(paste0("Whether we should stop the trial based on the input data: <strong>", (sum(n.assign) >= input$n.min_CFBD) & ((sum(n.assign) >= input$n.max_CFBD) | BEDs[3] > 0.9 | all(sapply(1:MTD_CFBD$mtd, function(i) {Rbeta(input$E.min_CFBD,a.pEff[i],b.pEff[i])}) > 0.9)), "</strong> <br>")),
               br(),
               HTML(paste0("<font size=\"3\">The BEDs are from dose level <strong>", BEDs[1], "</strong> to dose level <strong>", BEDs[2], "</strong><font>")),
               DTOutput('table1_bed_CFBD'),
@@ -1600,7 +1600,7 @@ shinyServer(
               plotOutput('plot1_bed_CFBD')
             )
           })
-        }
+        # }
       }
       else {
         output$BEDs_result_CFBD = renderUI({
