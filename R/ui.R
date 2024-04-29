@@ -17,16 +17,19 @@ if (!require("shinybusy")) {
 
 
 shinyUI(
-  navbarPage(strong("Monotonic dose response and curve-free designs for phase I dose-finding trials"),
-             theme=shinytheme("paper"),
+  fluidPage(
+    div(style="padding:20px",
+        img(src="SOM_logo.png", height="2.5%", width="20%"),
+        titlePanel(
+          title="", windowTitle="My Window Title"
+        )
+    ),
+  navbarPage(title = strong("Monotonic dose response and curve-free designs for phase I dose-finding trials"),
+             theme = shinytheme("paper"),
              tags$style(HTML(".navbar-header { width:100% }
                               .navbar-brand { width: 100%; text-align: center }")),
              tabPanel("Introduction", icon=icon("house", verify_fa = FALSE),
                       fluidPage(
-                        fluidRow(
-                          align = 'center',
-                          h5(strong("Developed by Shenghuan Fan, Bee Leng Lee, Ying Lu, and Jiapeng Xu")),
-                        ),
                         br(),
                         br(),
                         wellPanel(
@@ -45,9 +48,11 @@ shinyUI(
                         br(),
                         br(),
                         br(),
+                        HTML("<strong><br>Developed by Shenghuan Fan, Bee Leng Lee, Ying Lu, and Jiapeng Xu</strong>"),
                         br(),
                         hr(style = "border-top: 0.5px solid #000000; border-color: gray; width: 120px; margin-left: 0;"),
                         br(),
+                        
                         HTML("<strong>Authors Information:</strong> <br>
                                <br>
                                Shenghua Fan <br>
@@ -920,5 +925,6 @@ shinyUI(
                                 ) 
                                 )
                         ),
-             ) # navbarPage End
+             )# navbarPage End
+  )
 ) # Shiny UI End
