@@ -1195,8 +1195,8 @@ shinyServer(
       }
       
       dose_levels = 1:length(p.true.tox)
-      mtd = which.max(p.true.tox[p.true.tox <= 0.3])
-      beds = ifelse(length(which(p.true.eff[1:mtd] >= 0.3)) == 0, NA, which(p.true.eff[1:mtd] >= 0.3))
+      mtd = which.max(p.true.tox[p.true.tox <= input$target_CFBD])
+      beds = ifelse(length(which(p.true.eff[1:mtd] >= input$E.min_CFBD)) == 0, NA, which(p.true.eff[1:mtd] >= input$E.min_CFBD))
       L_beds = ifelse(is.na(beds), NA, min(beds))
       U_beds = ifelse(is.na(beds), NA, max(beds))
       
@@ -1380,8 +1380,8 @@ shinyServer(
       }
       
       dose_levels = 1:length(p.true.tox)
-      mtd = which.max(p.true.tox[p.true.tox <= 0.3])
-      beds = ifelse(length(which(p.true.eff[1:mtd] >= 0.3)) == 0, NA, which(p.true.eff[1:mtd] >= 0.3))
+      mtd = which.max(p.true.tox[p.true.tox <= input$target_CFBD])
+      beds = ifelse(length(which(p.true.eff[1:mtd] >= input$E.min_CFBD)) == 0, NA, which(p.true.eff[1:mtd] >= input$E.min_CFBD))
       L_beds = ifelse(is.na(beds), NA, min(beds))
       U_beds = ifelse(is.na(beds), NA, max(beds))
       
@@ -1723,8 +1723,8 @@ shinyServer(
       }
       
       dose_levels = 1:length(p.true.tox)
-      mtd = which.max(p.true.tox[p.true.tox <= 0.3])
-      beds = ifelse(length(which(p.true.eff[1:mtd] >= 0.3)) == 0, NA, which(p.true.eff[1:mtd] >= 0.3))
+      mtd = which.max(p.true.tox[p.true.tox <= input$target_CFHD])
+      beds = ifelse(length(which(p.true.eff[1:mtd] >= input$E.min_CFHD)) == 0, NA, which(p.true.eff[1:mtd] >= input$E.min_CFHD))
       L_beds = ifelse(is.na(beds), NA, min(beds))
       U_beds = ifelse(is.na(beds), NA, max(beds))
       
@@ -1908,8 +1908,8 @@ shinyServer(
       }
       
       dose_levels = 1:length(p.true.tox)
-      mtd = which.max(p.true.tox[p.true.tox <= 0.3])
-      beds = ifelse(length(which(p.true.eff[1:mtd] >= 0.3)) == 0, NA, which(p.true.eff[1:mtd] >= 0.3))
+      mtd = which.max(p.true.tox[p.true.tox <= input$target_CFHD])
+      beds = ifelse(length(which(p.true.eff[1:mtd] >= input$E.min_CFHD)) == 0, NA, which(p.true.eff[1:mtd] >= input$E.min_CFHD))
       L_beds = ifelse(is.na(beds), NA, min(beds))
       U_beds = ifelse(is.na(beds), NA, max(beds))
       
