@@ -343,8 +343,7 @@ shinyUI(
                                                            denotes deescalate, (i, j) is rejected and the MTC is considered exceeded. When the dose combination (i, j) is rejected, a lower dose combination, which could be (i − 1, j) or (i, j − 1), will be evaluated. If a.E < t.A < a.D, an additional cohort of B 
                                                            patients will be treated at the current dose combination (i, j). In this second cohort of patients, if the number of patients who experienced DLTs, t.B, does not exceed b.E, (i, j) will be accepted; if t.B ≥ b.D, (i, j) will be rejected; and if b.E < t.B < b.D, 
                                                            an additional cohort of C patients will be treated at the current dose combination (i, j). In this third cohort of patients, if the number of patients who experienced DLTs, t.C, does not exceed c.E, (i, j) will be accepted; otherwise, (i, j) will be rejected.'),
-                                                                             p ('In our simulations, we study the characteristics of the following designs used for evaluating a dose combination: 2 + 1 + 3, 4 + 3 + 2, 4 + 4 + 4, and 2 + 1 + 3/4 + 4 + 4. The fourth design, hereafter referred to as “hybrid,” involves switching 
-                                                           from the 2 + 1 + 3 design to the 4 + 4 + 4 design when the dose levels of both agents are increased simultaneously. The values of the decision parameters, a.E, a.D, b.E, b.D, and c.E, are given in Table 2.')
+                                                                             p ('In our simulations, we study the characteristics of the following designs used for evaluating a dose combination: 2 + 1 + 3, 4 + 3 + 2, 4 + 4 + 4. The values of the decision parameters, a.E, a.D, b.E, b.D, and c.E, are given in Table 2.')
                                                                            ),
                                                                            fluidRow(column(4,
                                                                                            sidebarPanel(width = "100%",
@@ -355,8 +354,7 @@ shinyUI(
                                                                                                                     strong('Type of A+B+C design'),
                                                                                                                     c('2+1+3' = '2+1+3',
                                                                                                                       '4+3+2' = '4+3+2',
-                                                                                                                      '4+4+4' = '4+4+4',
-                                                                                                                      '2+1+3/4+4+4' = '2+1+3/4+4+4'),
+                                                                                                                      '4+4+4' = '4+4+4'),
                                                                                                                     multiple = TRUE,
                                                                                                                     width = '70%'))),
                                                                                     column(8, 

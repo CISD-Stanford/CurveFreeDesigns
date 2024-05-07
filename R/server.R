@@ -508,12 +508,13 @@ shinyServer(
       )
     }
     #------------------------------- A Rule-Based Design for Agents with Nonoverlapping Dose-Limiting Toxicities ------------------------------
-    output$Table_2DLT <- renderTable(data.frame(Design = c('2+1+3', '4+3+2', '4+4+4', '2+1+3/4+4+4 (hybrid)'),
-                                                a.E = c(0, 0, 0, '-'),
-                                                a.D = c(2, 2, 2, '-'),
-                                                b.E = c(-1,0, 0, '-'),
-                                                b.D = c(1, 2, 2, '-'),
-                                                c.E = c(0, 0, 0, '-')))
+    output$Table_2DLT <- renderTable(data.frame(Design = c('2+1+3', '4+3+2', '4+4+4'),
+                                                a.E = c(0, 0, 0),
+                                                a.D = c(2, 2, 2),
+                                                b.E = c(-1,0, 0),
+                                                b.D = c(1, 2, 2),
+                                                c.E = c(0, 0, 0)),
+                                     digits = 0)
     output$P_matrix_2DLT <- renderUI({
       if (is.na(input$doseLevel1_2DLT) == TRUE | is.na(input$doseLevel2_2DLT) == TRUE) {
         matrixInput("P_matrixinput_2DLT",
@@ -896,7 +897,7 @@ shinyServer(
         }
         multiplot(plot_list, cols=ceiling(sqrt(length(plot_list))))
       })
-      
+     
       output$dose_selection_tabs = renderUI({
         
         tabs = lapply(1:length(input$Select_2agents), function (x){
@@ -932,8 +933,7 @@ shinyServer(
                      align = 'center',
                      br(),
                      HTML(paste0("Within the <strong>", input$ntrial_2agents, "</strong> simulations, the average sample size is <strong>", res["n", input$Select_2agents[x]][[1]], "</strong>. The percentage of trials that 
-                                 recommend MTD is <strong>",  res["percentFound", input$Select_2agents[x]][[1]], "%</strong>, the percentage of trials that the recommended MTD is within the 10 percents 
-                                 of target DLT rate is <strong>", res["percentSuccess", input$Select_2agents[x]][[1]], "%</strong>, and the percentage of in-trial toxicity is <strong>", 
+                                 recommend MTD is <strong>",  res["percentFound", input$Select_2agents[x]][[1]], "%</strong>, and the percentage of in-trial toxicity is <strong>", 
                                  res["percentTox", input$Select_2agents[x]][[1]], "%</strong>." )),
                      br(),
                      br(),
@@ -1162,7 +1162,17 @@ shinyServer(
     })
     
     observeEvent(input$actionButton_CFBD, {
-      if (length(extract(input$p.true.tox_CFBD)) <= 5) {
+      if(inherits(try(extract(input$p.true.tox_CFBD), silent = TRUE), "try-error")) {
+        showModal(modalDialog(
+          title = "Warning Message:",
+          output$text_Simulation <- renderText({
+            "Please check if the toxicity rates are entered correctly"
+          }),
+          size = c("xl"),
+          easyClose = TRUE
+        ))
+      }
+      else if (length(extract(input$p.true.tox_CFBD)) <= 5) {
         showModal(pop_up_CFBD())
       }
       else {
@@ -1341,7 +1351,17 @@ shinyServer(
     }
     
     observeEvent(input$actionButton_CFBD2, {
-      if (length(extract(input$p.true.tox_CFBD)) <= 5) {
+      if(inherits(try(extract(input$p.true.tox_CFBD), silent = TRUE), "try-error")) {
+        showModal(modalDialog(
+          title = "Warning Message:",
+          output$text_Simulation <- renderText({
+            "Please check if the toxicity rates are entered correctly"
+          }),
+          size = c("xl"),
+          easyClose = TRUE
+        ))
+      }
+      else if (length(extract(input$p.true.tox_CFBD)) <= 5) {
         showModal(comparison_CFBD())
       }
       else {
@@ -1688,7 +1708,17 @@ shinyServer(
     })
     
     observeEvent(input$actionButton_CFHD, {
-      if (length(extract(input$p.true.tox_CFHD)) <= 5) {
+      if(inherits(try(extract(input$p.true.tox_CFHD), silent = TRUE), "try-error")) {
+        showModal(modalDialog(
+          title = "Warning Message:",
+          output$text_Simulation <- renderText({
+            "Please check if the toxicity rates are entered correctly"
+          }),
+          size = c("xl"),
+          easyClose = TRUE
+        ))
+      }
+      else if (length(extract(input$p.true.tox_CFHD)) <= 5) {
         showModal(pop_up_CFHD())
       }
       else {
@@ -1869,7 +1899,17 @@ shinyServer(
     }
     
     observeEvent(input$actionButton_CFHD2, {
-      if (length(extract(input$p.true.tox_CFHD)) <= 5) {
+      if(inherits(try(extract(input$p.true.tox_CFHD), silent = TRUE), "try-error")) {
+        showModal(modalDialog(
+          title = "Warning Message:",
+          output$text_Simulation <- renderText({
+            "Please check if the toxicity rates are entered correctly"
+          }),
+          size = c("xl"),
+          easyClose = TRUE
+        ))
+      }
+      else if (length(extract(input$p.true.tox_CFHD)) <= 5) {
         showModal(comparison_CFHD())
       }
       else {
