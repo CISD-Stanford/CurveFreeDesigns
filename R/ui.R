@@ -451,6 +451,7 @@ shinyUI(
                                                                                                'Sensitivity (underestimate)' = 'Sensitivity (underestimate)',
                                                                                                'Sensitivity (overestimate)' = 'Sensitivity (overestimate)',
                                                                                                'Sensitivity (both under- and overestimate)' = 'Sensitivity (both under- and overestimate)'),
+                                                                                             selected = 'True DLT probabilities',
                                                                                              multiple = TRUE)),
                                                                           column(8,
                                                                                  align = 'left',
