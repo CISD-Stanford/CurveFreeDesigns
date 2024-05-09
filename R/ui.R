@@ -885,41 +885,41 @@ shinyUI(
                                                       ))),
                                     )
                                   ),
-                                  tabPanel(
-                                    title = "Find BEDs",
-                                    fluidPage(
-                                      fluidRow(
-                                        column(12,
-                                               align = 'center',
-                                               wellPanel(
-                                                 align = 'center',
-                                                 h5('Find the BED interval based on your current data'),
-                                                 br(),
-                                                 fluidRow(
-                                                   align = 'center',
-                                                   column(5,
-                                                          align = 'center',
-                                                          sidebarPanel(width = "100%",
-                                                                       align = "center",
-                                                                       uiOutput("prior_eff_CFHD"),
-                                                                       uiOutput("prior_tox_CFhD"),
-                                                                       uiOutput("BEDs_selection_CFHD"),
-                                                                       HTML("Enter the MTD and current dose level into the box below. The current dose level is optional, once entered, it will evaluation about whether to stop the trial based on stopping rule of the stage 2"),
-                                                                       fluidRow(
-                                                                         numericInput("currentDose_CFHD", strong("The current dose level (optional)"),      value = NA,     min = 0,  max = 10),
-                                                                       ),
-                                                                       
-                                                                       checkboxInput("checkbox_CFHD", strong("Check the box to confirm that parameters have been entered under simulation study and values have been entered in the second table"), value = FALSE, width = NULL),
-                                                                       actionButton("SelectBEDs_CFHD", "Find BEDs"))),
-                                                   column(7, 
-                                                          align = 'left',
-                                                          uiOutput("BEDs_result_CFHD"))
-                                                 )
-                                               )
-                                        )
-                                      )
-                                    )
-                                  )
+                                  # tabPanel(
+                                  #   title = "Find BEDs",
+                                  #   fluidPage(
+                                  #     fluidRow(
+                                  #       column(12,
+                                  #              align = 'center',
+                                  #              wellPanel(
+                                  #                align = 'center',
+                                  #                h5('Find the BED interval based on your current data'),
+                                  #                br(),
+                                  #                fluidRow(
+                                  #                  align = 'center',
+                                  #                  column(5,
+                                  #                         align = 'center',
+                                  #                         sidebarPanel(width = "100%",
+                                  #                                      align = "center",
+                                  #                                      uiOutput("prior_eff_CFHD"),
+                                  #                                      uiOutput("prior_tox_CFhD"),
+                                  #                                      uiOutput("BEDs_selection_CFHD"),
+                                  #                                      HTML("Enter the MTD and current dose level into the box below. The current dose level is optional, once entered, it will evaluation about whether to stop the trial based on stopping rule of the stage 2"),
+                                  #                                      fluidRow(
+                                  #                                        numericInput("currentDose_CFHD", strong("The current dose level (optional)"),      value = NA,     min = 0,  max = 10),
+                                  #                                      ),
+                                  #                                      
+                                  #                                      checkboxInput("checkbox_CFHD", strong("Check the box to confirm that parameters have been entered under simulation study and values have been entered in the second table"), value = FALSE, width = NULL),
+                                  #                                      actionButton("SelectBEDs_CFHD", "Find BEDs"))),
+                                  #                  column(7, 
+                                  #                         align = 'left',
+                                  #                         uiOutput("BEDs_result_CFHD"))
+                                  #                )
+                                  #              )
+                                  #       )
+                                  #     )
+                                  #   )
+                                  # )
                                 ) 
                                 )
                         ),
