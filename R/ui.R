@@ -154,28 +154,6 @@ shinyUI(
                                                               HTML('If a trial is stopped base on S3, no MTD is recommended; otherwise, the current dose combination is recommended as an MTD. In our simulation, we choose \\(n_{min} = 10\\), \\(n_{max} = 50\\), \\(\\delta_{0} = 0.05\\), \\(r_{1} = 0.5\\) and \\(r_{2} = 0.95\\).')
                                                               
                                                        )),
-                                               fluidRow(column(4,
-                                                               sliderInput("target_FLW",       strong("Target toxicity rate (\\(\\theta_{T}\\))"),       min = 0,       max = 1,  value = 0.3, width  = '400px'),
-                                                               sliderInput("T.max_FLW",        strong("Maximum acceptable toxicity rate (\\(\\theta_{max}\\))"),        min = 0,       max = 1,  value = 0.35, width  = '400px'),
-                                                               numericInput("n.min.mtd_FLW",   strong("Minimum sample size (\\(n_{min}\\))"),    value = 10,    min = 0,  max = 100, width  = '400px'),
-                                                               numericInput("n.max.mtd_FLW",   strong("Maximum sample size (\\(n_{max}\\))"),    value = 30,    min = 0,  max = 100, width  = '400px'),
-                                                               numericInput("ntrial_FLW",    strong("Total number of simulations"),    value = 5000,  min = 0,  max = 10000, width  = '400px'),
-                                                               numericInput("seed_FLW",      strong("Random seed"),      value = 1,     min = 0,  max = 10000, width  = '400px')
-                                                         ),
-                                                         column(8,
-                                                                align = 'left',
-                                                                HTML('Before the trial begins, the minimum and maximum sample sizes, denoted \\(n_{min}\\) and \\(n_{max}\\) respectively, should be specified. In addition, let
-                                                                                                                  \\(r\\) and \\(r_{max}\\) be the target DLT rate and maximum acceptable toxicity rate. The following stopping 
-                                                                                                                  rules are imposed in our design for deciding when to stop a trial:<br>'),
-                                                                HTML('<strong>S1.</strong> To mitigate the effects of prior misspecification, early stopping is prohibited before the sample size reaches \\(n_{min}\\). <br>
-                                                                                                                   <strong>S2.</strong> The trial is stopped when the sample size reaches \\(n_{max}\\).<br>
-                                                                                                                   <strong>S3.</strong> all doses are evidently too toxic: $$P[p_{1} > u + \\delta | data] > r_{2}$$ <br>
-                                                                                                                   <strong>S4.</strong> The current recommended dose is very likely to be the MTD; that is, the next higher dose is very likely to be too toxic:
-                                                                                                                                        $$ P[p_{MTD^{+}} > u + \\delta | data] > r_{1}$$, where \\(MTD^{+}\\) is the next higher dose from the estimated MTD.<br>
-                                                                                                                   <strong>S5.</strong> S1 supersedes S3 and S4 <br>'),
-                                                                HTML('If a trial is stopped base on S3, no MTD is recommended; otherwise, the current dose combination is recommended as an MTD. In our simulation, we choose \\(n_{min} = 10\\), \\(n_{max} = 50\\), \\(\\delta_{0} = 0.05\\), \\(r_{1} = 0.5\\) and \\(r_{2} = 0.95\\).')
-                                                                
-                                                         )),
                                                fluidRow(hr(style = "border-top: 0.5px solid #000000; border-color: gray; width: 900px;"),
                                                         h5("Choice of calibration on effective sample size in prior distribution"),
                                                         br()),
