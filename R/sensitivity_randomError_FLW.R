@@ -34,7 +34,7 @@
 #' @export
 
 
-sensitivity_randomError_FLW <- function (pTox, error.T, var.ratio, target, T.max, n.min.mtd, n.max.mtd, n.sim, seed, alpha = 1, eta = 1, p1 = 0.1, p2 = 0.1) {
+sensitivity_randomError_FLW <- function (pTox, error.T, var.ratio, target, T.max, n.min.mtd, n.max.mtd, n.sim, seed, alpha = 1, eta = 1, p1 = 0.1, p2 = 0.1, calibration = FALSE) {
   
   if (target < 0.05) {
     stop("the target is too low!")
@@ -106,6 +106,12 @@ sensitivity_randomError_FLW <- function (pTox, error.T, var.ratio, target, T.max
     }
     
     # stage 1: finding mtd with a stopping rule 
+    if (calibration) {
+      S = sum(a.pTox + b.pTox)/n.dose
+      k = (a.pTox + b.pTox)/S
+      a.pTox = a.pTox/k
+      b.pTox = b.pTox/k
+    }
     osla <- findmtd(target, a.pTox, b.pTox, alpha, eta)
     mtd <- osla$mtd
     
@@ -133,6 +139,12 @@ sensitivity_randomError_FLW <- function (pTox, error.T, var.ratio, target, T.max
         a.pTox[mtd:n.dose] <- a.pTox[mtd:n.dose] + 1
       } else b.pTox[1:mtd] <- b.pTox[1:mtd] + 1
       
+      if (calibration) {
+        S = sum(a.pTox + b.pTox)/n.dose
+        k = (a.pTox + b.pTox)/S
+        a.pTox = a.pTox/k
+        b.pTox = b.pTox/k
+      }
       osla <- findmtd(target, a.pTox, b.pTox, alpha, eta)
       mtd <- osla$mtd
     }

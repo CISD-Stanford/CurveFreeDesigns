@@ -34,7 +34,7 @@
 #' @export
 
 
-get_oc_2agents_bayesian <- function (pTox, target, T.max, n.min, n.max, n.sim, seed, var.ratio = 4, alpha = 1.2, eta = 1, r1 = 0.5, r2 = 0.95, type = 1) {
+get_oc_2agents_bayesian <- function (pTox, target, T.max, n.min, n.max, n.sim, seed, var.ratio = 4, alpha = 1.2, eta = 1, r1 = 0.5, r2 = 0.95, type = 1, calibration = FALSE) {
   if (target < 0.05) {
     stop("the target is too low")
   }
@@ -150,6 +150,12 @@ get_oc_2agents_bayesian <- function (pTox, target, T.max, n.min, n.max, n.sim, s
       
       # continue trial
       # assign one patient at the current mtd; update parameters at the dose
+      if (calibration) {
+        S = sum(a.pTox + b.pTox)/(n1.dose*n2.dose)
+        k = (a.pTox + b.pTox)/S
+        a.pTox = a.pTox/k
+        b.pTox = b.pTox/k
+      }
       d = dose_escalation(d, a.pTox, b.pTox, target, alpha, eta)
       
       sample.size[s] <- sample.size[s] + 1

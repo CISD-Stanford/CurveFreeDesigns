@@ -168,16 +168,16 @@ shinyServer(
     pop_up_FLW = function (failed = FALSE) {
       
       p.true.tox <- input$pTox.FLW.matrixInput
-      
+
       if (input$select_FLW == 'Sensitivity analysis by fixed error') {
         fixed.error.tox = input$errorsTox.fixed.FLW
-        res_FLW = sensitivity_fixedError_FLW(p.true.tox, fixed.error.tox, 4, input$target_FLW, input$T.max_FLW, input$n.min.mtd_FLW, input$n.max.mtd_FLW, input$ntrial_FLW, input$seed_FLW)
+        res_FLW = sensitivity_fixedError_FLW(p.true.tox, fixed.error.tox, 4, input$target_FLW, input$T.max_FLW, input$n.min.mtd_FLW, input$n.max.mtd_FLW, input$ntrial_FLW, input$seed_FLW, calibration = input$calibration)
       }
       else if (input$select_FLW == 'Sensitivity analysis by random error') {
-        res_FLW = sensitivity_randomError_FLW(p.true.tox, input$errorsTox.random.FLW, 4, input$target_FLW, input$T.max_FLW, input$n.min.mtd_FLW, input$n.max.mtd_FLW, input$ntrial_FLW, input$seed_FLW)
+        res_FLW = sensitivity_randomError_FLW(p.true.tox, input$errorsTox.random.FLW, 4, input$target_FLW, input$T.max_FLW, input$n.min.mtd_FLW, input$n.max.mtd_FLW, input$ntrial_FLW, input$seed_FLW, calibration = input$calibration)
       }
       else {
-        res_FLW = get_oc_FLW(p.true.tox, 4, input$target_FLW, input$T.max_FLW, input$n.min.mtd_FLW, input$n.max.mtd_FLW, input$ntrial_FLW, input$seed_FLW)
+        res_FLW = get_oc_FLW(p.true.tox, 4, input$target_FLW, input$T.max_FLW, input$n.min.mtd_FLW, input$n.max.mtd_FLW, input$ntrial_FLW, input$seed_FLW, calibration = input$calibration)
       }
       
       dose_levels = 1:length(p.true.tox)
@@ -862,19 +862,19 @@ shinyServer(
       res = sapply(input$Select_2agents, function (ii) {
         if (ii == "True DLT probabilities") {
           get_oc_2agents_bayesian(p.true, input$theta_2agents, input$delta_2agents, input$n_min_2agents, input$n_max_2agents, input$ntrial_2agents, input$seed_2agents, var.ratio = 4,
-                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 1)
+                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 1, calibration = input$calibration_CFBD2)
         }
         else if (ii == "Sensitivity (underestimate)") {
           get_oc_2agents_bayesian(p.true, input$theta_2agents, input$delta_2agents, input$n_min_2agents, input$n_max_2agents, input$ntrial_2agents, input$seed_2agents, var.ratio = 4,
-                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 2)
+                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 2, calibration = input$calibration_CFBD2)
         }
         else if (ii == "Sensitivity (overestimate)") {
           get_oc_2agents_bayesian(p.true, input$theta_2agents, input$delta_2agents, input$n_min_2agents, input$n_max_2agents, input$ntrial_2agents, input$seed_2agents, var.ratio = 4,
-                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 3)
+                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 3, calibration = input$calibration_CFBD2)
         }
         else {
           get_oc_2agents_bayesian(p.true, input$theta_2agents, input$delta_2agents, input$n_min_2agents, input$n_max_2agents, input$ntrial_2agents, input$seed_2agents, var.ratio = 4,
-                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 4)
+                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 4, calibration = input$calibration_CFBD2)
         }
       })
       

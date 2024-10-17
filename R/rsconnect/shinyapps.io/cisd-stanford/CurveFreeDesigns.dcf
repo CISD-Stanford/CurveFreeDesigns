@@ -5,7 +5,7 @@ account: cisd-stanford
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 10855259
-bundleId: 8594184
+bundleId: 9236579
 url: https://cisd-stanford.shinyapps.io/CurveFreeDesigns/
 version: 1
 asMultiple: FALSE
