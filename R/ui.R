@@ -41,14 +41,12 @@ shinyUI(
                                The hyperparameters include the effective sample size in the beta prior distribution, the magnitude of penalty/reward in the utility function, and minimum probability to conclude, etc. 
                                After these parameters have been specified, clicking the <strong><em>Get operating characteristics</em></strong> button will begin the computations and display the results in a new output tab, 
                                which contains the scenario used in the current setting, tabulated operating characteristics, and informative plots."),
-                          
-                          
-                          
+                          br(), 
+                          br(), 
+                          HTML("<strong><em>Acknowledgments: </em></strong> This project was partially supported by National Cancer Institute grants 3P30CA124435-16S2, 5P01CA25790703, and 1UM1TR00492101"),
                         ),
                         br(),
                         br(),
-                        br(),
-                        HTML("<strong><br>Developed by Shenghuan Fan, Bee Leng Lee, Ying Lu, and Jiapeng Xu</strong>"),
                         br(),
                         hr(style = "border-top: 0.5px solid #000000; border-color: gray; width: 120px; margin-left: 0;"),
                         br(),
