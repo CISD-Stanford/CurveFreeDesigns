@@ -43,7 +43,7 @@ shinyUI(
                                which contains the scenario used in the current setting, tabulated operating characteristics, and informative plots."),
                           br(), 
                           br(), 
-                          HTML("<strong><em>Acknowledgments: </em></strong> This project was partially supported by National Cancer Institute grants 3P30CA124435-16S2, 5P01CA25790703, and 1UM1TR00492101"),
+                          HTML("<strong><em>Acknowledgments: </em></strong> This project was partially supported by grants from the US National Institutes of Health 3P30CA124435-16S2, 5P01CA25790703, and 1UM1TR00492101."),
                         ),
                         br(),
                         br(),
@@ -63,11 +63,15 @@ shinyUI(
                                <br>
                                Ying Lu <br>
                                Department of Biomedical Data Science, Center for Innovative Study Designs and the Biostatistics Core, Stanfrod Cancer Insistute, School of Medicine, Stanford University, Stanford, 94305, CA, USA <br>
-                               e-mail: ylu1@stanford.edu <br>
+                               e-mail: ylu1@stanford.edu <a href=mailto:ylu1@stanford.edu>Send email</a> <br>
+                               <br>
+                               John S. Tamaresis <br>
+                               Department of Biomedical Data Science, Center for Innovative Study Designs and the Biostatistics Core, Stanfrod Cancer Insistute, School of Medicine, Stanford University, Stanford, 94305, CA, USA <br>
+                               e-mail: john.s.tamaresis@stanford.edu <a href=mailto:john.s.tamaresis@stanford.edu>Send email</a> <br>
                                <br>
                                Jiapeng Xu (Maintainer)<br>
                                Department of Biomedical Data Science, Center for Innovative Study Designs and the Biostatistics Core, Stanfrod Cancer Insistute, School of Medicine, Stanford University, Stanford, 94305, CA, USA <br>
-                               e-mail: jiapeng@stanford.edu <a href=mailto:jiapeng@stanford.edu>Send email</a>"),
+                               e-mail: jx2427@columbia.edu <a href=mailto:jx2427@columbia.edu>Send email</a>"),
                         
                       )
                       
