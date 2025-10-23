@@ -34,7 +34,7 @@
 #' @export
 
 
-get_oc_2agents_bayesian <- function (pTox, target, T.max, n.min, n.max, n.sim, seed, var.ratio = 4, alpha = 1.2, eta = 1, r1 = 0.5, r2 = 0.95, type = 1, calibration = FALSE) {
+get_oc_2agents_bayesian <- function (pTox, target, T.max, n.min, n.max, n.sim, seed, var.ratio = 4, alpha = 1.2, eta = 1, r1 = 0.5, r2 = 0.95, type = 1, calibration = FALSE, customizedPrior = NULL) {
   if (target < 0.05) {
     stop("the target is too low")
   }
@@ -69,14 +69,18 @@ get_oc_2agents_bayesian <- function (pTox, target, T.max, n.min, n.max, n.sim, s
     if (type == 1) {
       a.pTox <- var.ratio * pTox
       b.pTox <- var.ratio * (1 - pTox)
-      }
+    }
     else if (type == 2) {
+      a.pTox <- customizedPrior$Alpha
+      b.pTox <- customizedPrior$Beta
+    }
+    else if (type == 3) {
       underestimated_pTox = (pTox - matrix(runif(n1.dose*n2.dose, 0, 1)*0.05, nrow = n1.dose, ncol = n2.dose))
       underestimated_pTox[underestimated_pTox < 0] = 0
       a.pTox = var.ratio * underestimated_pTox
       b.pTox <- var.ratio * (1 - underestimated_pTox)
     }
-    else if (type == 3) {
+    else if (type == 4) {
       overestimated_pTox = (pTox + matrix(runif(n1.dose*n2.dose, 0, 1)*0.05, nrow = n1.dose, ncol = n2.dose))
       overestimated_pTox[overestimated_pTox > 1] = 1
       a.pTox = var.ratio * overestimated_pTox

@@ -99,14 +99,13 @@ shinyUI(
                                                                       'Sensitivity analysis by random error' = 'Sensitivity analysis by random error',
                                                                       'Sensitivity analysis by fixed error' = 'Sensitivity analysis by fixed error'),
                                                                     multiple = FALSE),
-                                                        br(),
-                                                        br(),
                                                         numericInput(inputId = "doseLevel_FLW",
                                                                      label = strong("Dose levels"),
                                                                      value = 6,
                                                                      min = 0,
                                                                      max = 10,
                                                                      width = '70%'),
+                                                        uiOutput("customizedPriorCheckbox.FLW")
                                                  ),
                                                  column(8, 
                                                         align = 'left',
@@ -120,8 +119,8 @@ shinyUI(
                                                  align = 'center',
                                                  br(),
                                                  column(4,
-                                                        br(),
-                                                        p(strong("Note:"), "please adjust values in each block in the right bar to set your toxicity rates.")
+                                                        uiOutput("customizedPrior.FLW")
+                                                        
                                                  ),
                                                  column(4,
                                                         uiOutput("pTox.FLW")
@@ -466,17 +465,18 @@ shinyUI(
                                                                                  selectInput('Select_2agents',
                                                                                              strong('Type of simulation'),
                                                                                              c('True DLT probabilities' = 'True DLT probabilities',
+                                                                                               'Customized Prior' = 'Customized Prior',
                                                                                                'Sensitivity (underestimate)' = 'Sensitivity (underestimate)',
                                                                                                'Sensitivity (overestimate)' = 'Sensitivity (overestimate)',
                                                                                                'Sensitivity (both under- and overestimate)' = 'Sensitivity (both under- and overestimate)'),
                                                                                              selected = 'True DLT probabilities',
-                                                                                             multiple = TRUE)),
+                                                                                             multiple =TRUE)),
                                                                           column(8,
                                                                                  align = 'left',
                                                                                  HTML('If <strong>True DLT probabilities</strong> is choosen, the priors will be centered at the true DLT probabilities. <br>
-                                                                                                        In <strong>Sensitivity (underestimate)</strong> and <strong>Sensitivity (overestimate)</strong>, the prior means underestimate 
-                                                                                                        and overestimate the true DLT probabilities by 1-5% in each simulation, respectively. <br>
-                                                                                                        In <strong>Sensitivity (both under- and overestimate)</strong>, both under- and overestimation occur in the prior means')
+                                                                                      In <strong>Sensitivity (underestimate)</strong> and <strong>Sensitivity (overestimate)</strong>, the prior means underestimate 
+                                                                                      and overestimate the true DLT probabilities by 1-5% in each simulation, respectively. <br>
+                                                                                      In <strong>Sensitivity (both under- and overestimate)</strong>, both under- and overestimation occur in the prior means')
                                                                           )
                                                                  ),
                                                                  fluidRow(column(6,
@@ -492,6 +492,12 @@ shinyUI(
                                                                                      max = 10000,
                                                                                      width  = "70%")
                                                                  )),
+                                                                 fluidRow(column(6, 
+                                                                                 p(strong('Table 1: '), 'Alpha parameter in beta prior distribution'),
+                                                                                 uiOutput("customizedPriorAlpha_2agents")),
+                                                                          column(6, 
+                                                                                 p(strong('Table 2: '), 'Beta parameter in beta prior distribution'),
+                                                                                 uiOutput("customizedPriorBeta_2agents"))),
                                                                  fluidRow(
                                                                    hr(style = "border-top: 0.5px solid #000000; border-color: gray; width: 900px;"),
                                                                    h5("Dose-limiting Toxicity (DLT) Rates Setup"),
@@ -515,7 +521,7 @@ shinyUI(
                                                                           column(8, 
                                                                                  p('The default DLT probabilities in the following table is the Scenario used in the referenced paper (Fan et al., 2020)'),
                                                                                  p('Please specify the DLT rate of each dose combination by adjusting the corresponding block below'),
-                                                                                 p(strong('Table 2: '), 'DLT rates used in simulations'),
+                                                                                 p(strong('Table 3: '), 'DLT rates used in simulations'),
                                                                                  uiOutput('P_matrix_2agents',
                                                                                           width = "10%"))),
                                                                  fluidRow(hr(style = "border-top: 0.5px solid #000000; border-color: gray; width: 900px;"),

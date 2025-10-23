@@ -129,6 +129,44 @@ shinyServer(
                   rows = list(names = FALSE),
                   class = "numeric")
     })
+    output$customizedPriorCheckbox.FLW <- renderUI({
+      req(input$select_FLW)
+      if (identical(input$select_FLW, "Simulation study")) {
+        checkboxInput("customizedPrior", "Customized Prior", value = FALSE)
+      } else {
+        NULL
+      }
+    })
+    
+    output$customizedPrior.FLW <- renderUI({
+      req(input$select_FLW)
+      if (identical(input$select_FLW, "Simulation study") && isTRUE(input$customizedPrior)) {
+        req(input$doseLevel_FLW)
+        dl <- as.integer(input$doseLevel_FLW)
+        validate(need(dl >= 1, "doseLevel must be at least 1."))
+        
+        # If you want a square matrix:
+        default_mat <- matrix(0, nrow = dl, ncol = dl,
+                              dimnames = list(NULL, as.character(seq_len(dl))))
+        
+        # If you actually intended a 1 × dl row vector, use nrow = 1 instead.
+        
+        matrixInput(
+          inputId = "customizedPriorTable.FLW",
+          label   = strong("Customized Prior Specification:"),
+          value   = matrix(rep(0, input$doseLevel_FLW*2),
+                           ncol = input$doseLevel_FLW,
+                           dimnames = list(
+                             c("α", "β"),                            # row names
+                             seq_len(input$doseLevel_FLW)  # column names
+                           )),
+          class   = "numeric"
+        )
+      } else {
+        NULL
+      }
+    })
+    
     output$errorsTox.FLW <- renderUI({
       if (input$select_FLW == 'Sensitivity analysis by random error') {
         sliderInput("errorsTox.random.FLW", strong("Random error size for toxicity"), min = 0, max = 1, value = 0.5, step = 0.05)
@@ -177,7 +215,7 @@ shinyServer(
         res_FLW = sensitivity_randomError_FLW(p.true.tox, input$errorsTox.random.FLW, 4, input$target_FLW, input$T.max_FLW, input$n.min.mtd_FLW, input$n.max.mtd_FLW, input$ntrial_FLW, input$seed_FLW, calibration = input$calibration)
       }
       else {
-        res_FLW = get_oc_FLW(p.true.tox, 4, input$target_FLW, input$T.max_FLW, input$n.min.mtd_FLW, input$n.max.mtd_FLW, input$ntrial_FLW, input$seed_FLW, calibration = input$calibration)
+        res_FLW = get_oc_FLW(p.true.tox, 4, input$target_FLW, input$T.max_FLW, input$n.min.mtd_FLW, input$n.max.mtd_FLW, input$ntrial_FLW, input$seed_FLW, calibration = input$calibration, customizedPrior = input$customizedPrior, customizedPriorInput = input$customizedPriorTable.FLW)
       }
       
       dose_levels = 1:length(p.true.tox)
@@ -783,6 +821,24 @@ shinyServer(
       )
     }
     #------------------------------- Bayesian Decision-Theoretic Design ------------------------------
+    output$customizedPriorAlpha_2agents <- renderUI({
+      if ('Customized Prior' %in% input$Select_2agents) {
+        matrixInput("priorAlpha_2agents",
+                    value = matrix(0,
+                                   input$doseLevel1_2agents,
+                                   input$doseLevel2_2agents,
+                                   dimnames = list(paste0("Level ", 1:input$doseLevel1_2agents), paste0("Level ", 1:input$doseLevel2_2agents))))
+      }
+    })
+    output$customizedPriorBeta_2agents <- renderUI({
+      if ('Customized Prior' %in% input$Select_2agents) {
+        matrixInput("priorBeta_2agents",
+                    value = matrix(0,
+                                   input$doseLevel1_2agents,
+                                   input$doseLevel2_2agents,
+                                   dimnames = list(paste0("Level ", 1:input$doseLevel1_2agents), paste0("Level ", 1:input$doseLevel2_2agents))))
+      }
+    })
     output$P_matrix_2agents <- renderUI({
       if (is.na(input$doseLevel1_2agents) == TRUE | is.na(input$doseLevel2_2agents) == TRUE) {
         matrixInput("P_matrixinput_2agents",
@@ -864,17 +920,24 @@ shinyServer(
           get_oc_2agents_bayesian(p.true, input$theta_2agents, input$delta_2agents, input$n_min_2agents, input$n_max_2agents, input$ntrial_2agents, input$seed_2agents, var.ratio = 4,
                                   alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 1, calibration = input$calibration_CFBD2)
         }
-        else if (ii == "Sensitivity (underestimate)") {
+        else if (ii == 'Customized Prior') {
+          customizedPriorAlpha = matrix(as.numeric(input$priorAlpha_2agents), ncol = input$doseLevel2_2agents)
+          customizedPriorBeta  = matrix(as.numeric(input$priorBeta_2agents), ncol = input$doseLevel2_2agents)
+          customizedPrior = list(Alpha = customizedPriorAlpha, Beta = customizedPriorBeta)
           get_oc_2agents_bayesian(p.true, input$theta_2agents, input$delta_2agents, input$n_min_2agents, input$n_max_2agents, input$ntrial_2agents, input$seed_2agents, var.ratio = 4,
-                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 2, calibration = input$calibration_CFBD2)
+                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 2, calibration = input$calibration_CFBD2, customizedPrior = customizedPrior)
         }
-        else if (ii == "Sensitivity (overestimate)") {
+        else if (ii == "Sensitivity (underestimate)") {
           get_oc_2agents_bayesian(p.true, input$theta_2agents, input$delta_2agents, input$n_min_2agents, input$n_max_2agents, input$ntrial_2agents, input$seed_2agents, var.ratio = 4,
                                   alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 3, calibration = input$calibration_CFBD2)
         }
-        else {
+        else if (ii == "Sensitivity (overestimate)") {
           get_oc_2agents_bayesian(p.true, input$theta_2agents, input$delta_2agents, input$n_min_2agents, input$n_max_2agents, input$ntrial_2agents, input$seed_2agents, var.ratio = 4,
                                   alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 4, calibration = input$calibration_CFBD2)
+        }
+        else {
+          get_oc_2agents_bayesian(p.true, input$theta_2agents, input$delta_2agents, input$n_min_2agents, input$n_max_2agents, input$ntrial_2agents, input$seed_2agents, var.ratio = 4,
+                                  alpha = input$alpha_2agents, eta = input$eta_2agents, input$r1_2agents, input$r2_2agents, type = 5, calibration = input$calibration_CFBD2)
         }
       })
       

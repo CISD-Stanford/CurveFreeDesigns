@@ -36,7 +36,7 @@
 #' @export
 
 
-get_oc_FLW <- function (pTox, var.ratio, target, T.max, n.min.mtd, n.max.mtd, n.sim, seed, alpha = 1, eta = 1, p1 = 0.1, p2 = 0.1, calibration = FALSE) {
+get_oc_FLW <- function (pTox, var.ratio, target, T.max, n.min.mtd, n.max.mtd, n.sim, seed, alpha = 1, eta = 1, p1 = 0.1, p2 = 0.1, calibration = FALSE, customizedPrior = FALSE, customizedPriorInput = NULL) {
 
   if (target < 0.05) {
     stop("the target is too low!")
@@ -67,8 +67,14 @@ get_oc_FLW <- function (pTox, var.ratio, target, T.max, n.min.mtd, n.max.mtd, n.
   # simulation begins
   #-------------------
   for (s in 1:n.sim) {
-    a.pTox <- var.ratio * pTox
-    b.pTox <- var.ratio * (1 - pTox)
+    if (customizedPrior) {
+      a.pTox = customizedPriorInput[1,]
+      b.pTox = customizedPriorInput[2,]
+    } else {
+      a.pTox <- var.ratio * pTox
+      b.pTox <- var.ratio * (1 - pTox)
+    }
+    
     
     n.tox <- numeric(n.dose)
     n.assign <- numeric(n.dose)
