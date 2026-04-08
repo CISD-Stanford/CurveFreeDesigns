@@ -148,11 +148,11 @@ shinyUI(
                                                                                                         rules are imposed in our design for deciding when to stop a trial:<br>'),
                                                               HTML('<strong>S1.</strong> To mitigate the effects of prior misspecification, early stopping is prohibited before the sample size reaches \\(n_{min}\\). <br>
                                                                                                          <strong>S2.</strong> The trial is stopped when the sample size reaches \\(n_{max}\\).<br>
-                                                                                                         <strong>S3.</strong> all doses are evidently too toxic: $$P[p_{1} > u + \\delta | data] > r_{2}$$ <br>
-                                                                                                         <strong>S4.</strong> The current recommended dose is very likely to be the MTD; that is, the next higher dose is very likely to be too toxic:
+                                                                                                         <strong>S3.</strong> The current recommended dose is very likely to be the MTD; that is, the next higher dose is very likely to be too toxic:
                                                                                                                               $$ P[p_{MTD^{+}} > u + \\delta | data] > r_{1}$$, where \\(MTD^{+}\\) is the next higher dose from the estimated MTD.<br>
+                                                                                                         <strong>S4.</strong> all doses are evidently too toxic: $$P[p_{1} > u + \\delta | data] > r_{2}$$ <br>
                                                                                                          <strong>S5.</strong> S1 supersedes S3 and S4 <br>'),
-                                                              HTML('If a trial is stopped base on S3, no MTD is recommended; otherwise, the current dose combination is recommended as an MTD. In our simulation, we choose \\(n_{min} = 10\\), \\(n_{max} = 50\\), \\(\\delta_{0} = 0.05\\), \\(r_{1} = 0.5\\) and \\(r_{2} = 0.95\\).')
+                                                              HTML('If a trial is stopped base on S3, no MTD is recommended; otherwise, the current dose combination is recommended as an MTD. In our simulation, we choose \\(n_{min} = 10\\), \\(n_{max} = 50\\), \\(\\delta_{0} = 0.05\\), \\(r_{1} = 0.9\\) and \\(r_{2} = 0.9\\).')
                                                               
                                                        )),
                                                fluidRow(hr(style = "border-top: 0.5px solid #000000; border-color: gray; width: 900px;"),
