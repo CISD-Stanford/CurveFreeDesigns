@@ -326,8 +326,16 @@ shinyServer(
         n.tox = input$nPatientsDLTS.FLW.matrixInput[,2]
         n.assign = input$nPatientsDLTS.FLW.matrixInput[,1]
         workData = work_data_1dim(n.tox, n.assign)
-        a.pTox = 4 * ifelse(sum(is.na(input$prior.FLW.matrixInput)) == 0, input$prior.FLW.matrixInput, 0) + workData$tox
-        b.pTox = 4 * ifelse(sum(is.na(input$prior.FLW.matrixInput)) == 0, (1 - input$prior.FLW.matrixInput), 0) + (workData$n - workData$tox)
+        if (sum(is.na(input$prior.FLW.matrixInput)) == 0) {
+          a.pTox = 4*input$prior.FLW.matrixInput + workData$tox
+        } else {
+          a.pTox = workData$tox
+        }
+        if (sum(is.na(input$prior.FLW.matrixInput)) == 0) {
+          b.pTox = 4*(1 - input$prior.FLW.matrixInput) + (workData$n - workData$tox)
+        } else {
+          b.pTox = (workData$n - workData$tox)
+        }
         mtd = findmtd(input$target_FLW, a.pTox, b.pTox, alpha = 1, eta = 1)$mtd
         df_table1_mtd = data.frame(Dose_level = 1:input$doseLevel_FLW, Posterior_DLT_Estimate = round(c(a.pTox/(a.pTox+b.pTox)),2), Credible_Interval = paste0("( ", round(qbeta(0.025, a.pTox, b.pTox),2), " , ", round(qbeta(0.975, a.pTox, b.pTox),2), " )"), Pr = round(c(1 - pbeta(input$target_FLW, a.pTox, b.pTox)),2))
         output$table1_mtd_FLW <- renderDT({
