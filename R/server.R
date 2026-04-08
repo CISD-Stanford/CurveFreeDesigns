@@ -1089,8 +1089,13 @@ shinyServer(
         n.tox = input$MTD_selection_2agents_input_DLTs
         n.assign = input$MTD_selection_2agents_input_patients
         workData = work_data_2dim(n.tox, n.assign)
-        a.pTox = 4 * ifelse(sum(is.na(input$prior_2agents_input)) == 0, input$prior_2agents_input, 0) + workData$tox
-        b.pTox = 4 * ifelse(sum(is.na(input$prior_2agents_input)) == 0, (1 - input$prior_2agents_input), 0) + (workData$n - workData$tox)
+        if (!any(is.na(input$prior_2agents_input))) {
+          a.pTox = 4 * input$prior_2agents_input + workData$tox
+          b.pTox = 4 * (1 - input$prior_2agents_input) + (workData$n - workData$tox)
+        } else {
+          a.pTox = workData$tox
+          b.pTox = workData$n - workData$tox
+        }
         mtd = dose_escalation(c(input$doseLevel1_2agents, input$doseLevel2_2agents), a.pTox, b.pTox, input$theta_2agents, alpha = 1, eta = 1)
         df_table1_mtd = merge(1:input$doseLevel1_2agents, 1:input$doseLevel2_2agents)
         df_table1_mtd = cbind(df_table1_mtd, round(c(a.pTox/(a.pTox+b.pTox)),2), paste0("( ", c(round(qbeta(0.025, a.pTox, b.pTox),2)), " , ", c(round(qbeta(0.975, a.pTox, b.pTox),2)), " )"), round(c(1 - pbeta(input$target_FLW, a.pTox, b.pTox)),2))
@@ -1635,11 +1640,27 @@ shinyServer(
         n.tox = input$BEDs_selection_CFBD_input[,2]
         n.assign = input$BEDs_selection_CFBD_input[,1]
         workData_eff = work_data_1dim(n.eff, n.assign)
-        a.pEff = 4 * ifelse(sum(is.na(input$prior_eff_CFBD_input)) == 0, input$prior_eff_CFBD_input, 0) + workData_eff$tox
-        b.pEff = 4 * ifelse(sum(is.na(input$prior_eff_CFBD_input)) == 0, (1 - input$prior_eff_CFBD_input), 0) + (workData_eff$n - workData_eff$tox)
+        if (sum(is.na(input$prior_eff_CFBD_input)) == 0) {
+          a.pEff = 4*input$prior_eff_CFBD_input + workData_eff$tox
+        } else {
+          a.pEff = workData_eff$tox
+        }
+        if (sum(is.na(input$prior_eff_CFBD_input)) == 0) {
+          b.pEff = 4*(1 - input$prior_eff_CFBD_input) + (workData_eff$n - workData_eff$tox)
+        } else {
+          b.pEff = (workData_eff$n - workData_eff$tox)
+        }
         workData_mtd = work_data_1dim(n.tox, n.assign)
-        a.pTox = 4 * ifelse(sum(is.na(input$prior_tox_CFBD_input)) == 0, input$prior_tox_CFBD_input, 0) + workData_mtd$tox
-        b.pTox = 4 * ifelse(sum(is.na(input$prior_tox_CFBD_input)) == 0, (1 - input$prior_tox_CFBD_input), 0) + (workData_mtd$n - workData_mtd$tox)
+        if (sum(is.na(input$prior_tox_CFBD_input)) == 0) {
+          a.pTox = 4*input$prior_tox_CFBD_input + workData_mtd$tox
+        } else {
+          a.pTox = workData_mtd$tox
+        }
+        if (sum(is.na(input$prior_tox_CFBD_input)) == 0) {
+          b.pTox = 4*(1 - input$prior_tox_CFBD_input) + (workData_mtd$n - workData_mtd$tox)
+        } else {
+          b.pTox = (workData_mtd$n - workData_mtd$tox)
+        }
         MTD_CFBD = findmtd(input$target_CFBD, a.pTox, b.pTox, 1, 1)
         BEDs = findbeds_CFBD(MTD_CFBD$mtd, n.eff, n.assign, a.pEff, b.pEff, input$E.min_CFBD, gain.A = 1, gain.AC = 1, phi = 1, lo = 1)
         beds = BEDs[1]:BEDs[2]
@@ -2189,11 +2210,27 @@ shinyServer(
         n.tox = input$BEDs_selection_CFHD_input[,2]
         n.assign = input$BEDs_selection_CFHD_input[,1]
         workData_eff = work_data_1dim(n.eff, n.assign)
-        a.pEff = 4 * ifelse(sum(is.na(input$prior_eff_CFHD_input)) == 0, input$prior_eff_CFHD_input, 0) + workData_eff$tox
-        b.pEff = 4 * ifelse(sum(is.na(input$prior_eff_CFHD_input)) == 0, (1 - input$prior_eff_CFHD_input), 0) + (workData_eff$n - workData_eff$tox)
+        if (sum(is.na(input$prior_eff_CFHD_input)) == 0) {
+          a.pEff = 4*input$prior_eff_CFHD_input + workData_eff$tox
+        } else {
+          a.pEff = workData_eff$tox
+        }
+        if (sum(is.na(input$prior_eff_CFHD_input)) == 0) {
+          b.pEff = 4*(1 - input$prior_tox_CFHD_input) + (workData_eff$n - workData_eff$tox)
+        } else {
+          b.pEff = (workData_eff$n - workData_eff$tox)
+        }
         workData_mtd = work_data_1dim(n.tox, n.assign)
-        a.pTox = 4 * ifelse(sum(is.na(input$prior_tox_CFHD_input)) == 0, input$prior_tox_CFHD_input, 0) + workData_mtd$tox
-        b.pTox = 4 * ifelse(sum(is.na(input$prior_tox_CFHD_input)) == 0, (1 - input$prior_tox_CFHD_input), 0) + (workData_mtd$n - workData_mtd$tox)
+        if (sum(is.na(input$prior_tox_CFHD_input)) == 0) {
+          a.pTox = 4*input$prior_tox_CFHD_input + workData_mtd$tox
+        } else {
+          a.pTox = workData_mtd$tox
+        }
+        if (sum(is.na(input$prior_tox_CFHD_input)) == 0) {
+          b.pTox = 4*(1 - input$prior_tox_CFHD_input) + (workData_mtd$n - workData_mtd$tox)
+        } else {
+          b.pTox = (workData_mtd$n - workData_mtd$tox)
+        }
         MTD_CFHD = findmtd(input$target_CFHD, a.pTox, b.pTox, 1, 1)
         BEDs = findbeds_CFHD(input$MTD_CFHD, n.eff, n.assign, a.pEff, b.pEff, input$E.min_CFHD, gain.A = 1, gain.AC = 1, phi = 1, lo = 1)
         beds = BEDs[1]:BEDs[2]
